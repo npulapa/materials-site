@@ -3,14 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Study Materials</title>
+<title>📚 Study Materials</title>
 
 <style>
 
 body{
-font-family:Arial;
-background:#f9f9f9;
+font-family: Arial;
+background:#f4f6f9;
 text-align:center;
+margin:0;
+}
+
+h1{
+margin-top:30px;
 }
 
 .container{
@@ -20,8 +25,8 @@ margin:auto;
 
 .file{
 background:white;
-margin:10px;
-padding:15px;
+margin:15px;
+padding:20px;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
@@ -31,6 +36,7 @@ padding:8px 15px;
 margin:5px;
 border:none;
 cursor:pointer;
+border-radius:5px;
 }
 
 .view{
@@ -48,7 +54,7 @@ color:white;
 
 <body>
 
-<h2>📚 Study Materials</h2>
+<h1>📚 Study Materials</h1>
 
 <div class="container" id="materialsList"></div>
 
@@ -63,10 +69,8 @@ let uploads=JSON.parse(localStorage.getItem("uploads"))||[];
 list.innerHTML="";
 
 if(uploads.length===0){
-
-list.innerHTML="<p>No materials available</p>";
+list.innerHTML="<p>No materials uploaded yet.</p>";
 return;
-
 }
 
 uploads.forEach(file=>{
@@ -75,24 +79,40 @@ let div=document.createElement("div");
 div.className="file";
 
 div.innerHTML=`
+<h3>${file.subject}</h3>
 
-<b>${file.subject}</b><br>
-${file.fileName} (${file.year})
-<br>
+<p>
+📄 ${file.fileName} <br>
+🎓 ${file.year}
+</p>
 
-<a href="${file.fileURL}" target="_blank">
-<button class="view">View</button>
-</a>
+<button class="view" onclick="viewFile('${file.fileURL}')">
+View
+</button>
 
-<a href="${file.fileURL}" download="${file.fileName}">
-<button class="download">Download</button>
-</a>
-
+<button class="download" onclick="downloadFile('${file.fileURL}','${file.fileName}')">
+Download
+</button>
 `;
 
 list.appendChild(div);
 
 });
+
+}
+
+function viewFile(url){
+
+window.open(url,"_blank");
+
+}
+
+function downloadFile(url,name){
+
+let a=document.createElement("a");
+a.href=url;
+a.download=name;
+a.click();
 
 }
 
