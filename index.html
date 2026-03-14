@@ -11,43 +11,63 @@
 
 body{
 font-family:'Poppins',sans-serif;
-background:#f2f2f2; /* simple background */
-color:#333;
-text-align:center;
+background:linear-gradient(120deg,#f6d365,#fda085);
 margin:0;
 padding:0;
+text-align:center;
 }
 
 h1{
-margin-top:40px;
-font-size:26px;
+margin-top:30px;
 color:#333;
 }
 
 .container{
-margin-top:40px;
-display:inline-block;
-padding:30px 40px;
-background:#ffffff;
-border-radius:20px;
-box-shadow:0 5px 20px rgba(0,0,0,0.15);
+margin-top:30px;
+display:flex;
+justify-content:center;
+}
+
+.material-box{
+background:white;
+padding:25px;
+border-radius:15px;
+width:80%;
+max-width:700px;
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
 }
 
 .file-item{
-background:#00bcd4;
-color:#fff;
-border-radius:12px;
+background:#f0f9ff;
 padding:15px;
-margin:12px 0;
-width:280px;
-cursor:pointer;
-font-weight:600;
-transition:all 0.3s ease;
+margin:10px 0;
+border-radius:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.file-item:hover{
-transform:scale(1.06);
-background:#0097a7;
+.file-details{
+text-align:left;
+}
+
+.btn{
+border:none;
+padding:7px 12px;
+border-radius:8px;
+cursor:pointer;
+font-size:13px;
+}
+
+.view{
+background:#4CAF50;
+color:white;
+}
+
+.download{
+background:#2196F3;
+color:white;
+margin-left:5px;
 }
 
 </style>
@@ -55,65 +75,66 @@ background:#0097a7;
 
 <body>
 
-<h1 id="subjectTitle">📚 Study Materials</h1>
+<h1>📚 Study Materials</h1>
 
-<div class="container" id="materials">
-<h2>AVAILABLE FILES</h2>
+<div class="container">
+
+<div class="material-box">
+
+<h3>Available Files</h3>
+
+<div id="materialsList"></div>
+
+</div>
+
 </div>
 
 <script>
 
-window.addEventListener("DOMContentLoaded",()=>{
+const materialsList=document.getElementById("materialsList");
 
-const subject = localStorage.getItem("subject") || "Subject";
+function loadMaterials(){
 
-document.getElementById("subjectTitle").innerText =
-subject + " - Study Materials";
+let uploads=JSON.parse(localStorage.getItem("uploads"))||[];
 
-let uploads = JSON.parse(localStorage.getItem("uploads")) || [];
+materialsList.innerHTML="";
 
-let filtered = uploads.filter(u =>
-u.subject.toLowerCase() === subject.toLowerCase()
-);
-
-const container = document.getElementById("materials");
-
-if(filtered.length === 0){
-
-container.innerHTML +=
-`<p style="color:red;">⚠️ No files uploaded for this subject yet.</p>`;
-
+if(uploads.length===0){
+materialsList.innerHTML="<p>No materials available.</p>";
 return;
 }
 
-filtered.forEach(u=>{
+uploads.forEach(file=>{
 
-const fileDiv = document.createElement("div");
+let div=document.createElement("div");
+div.className="file-item";
 
-fileDiv.className="file-item";
+div.innerHTML=`
 
-fileDiv.innerHTML =
-`📘 ${u.fileName}<br><small>Year: ${u.year}</small>`;
+<div class="file-details">
+<b>${file.subject}</b><br>
+${file.fileName} (${file.year})
+</div>
 
-fileDiv.onclick=()=>{
+<div>
+<a href="${file.fileURL}" target="_blank">
+<button class="btn view">View</button>
+</a>
 
-const link=document.createElement("a");
+<a href="${file.fileURL}" download="${file.fileName}">
+<button class="btn download">Download</button>
+</a>
+</div>
 
-link.href=u.fileContent;
+`;
 
-link.download=u.fileName;
-
-link.target="_blank";
-
-link.click();
-
-};
-
-container.appendChild(fileDiv);
+materialsList.appendChild(div);
 
 });
 
-});
+}
+
+loadMaterials();
 
 </script>
 
