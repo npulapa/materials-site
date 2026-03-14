@@ -75,7 +75,7 @@ margin-left:5px;
 
 <body>
 
-<h1>📚 Study Materials</h1>
+<h1 id="subjectTitle">📚 Study Materials</h1>
 
 <div class="container">
 
@@ -93,18 +93,26 @@ margin-left:5px;
 
 const materialsList=document.getElementById("materialsList");
 
+/* GET SELECTED SUBJECT */
+const selectedSubject=localStorage.getItem("subject");
+
+document.getElementById("subjectTitle").innerText="📚 "+selectedSubject+" Materials";
+
 function loadMaterials(){
 
 let uploads=JSON.parse(localStorage.getItem("uploads"))||[];
 
 materialsList.innerHTML="";
 
-if(uploads.length===0){
-materialsList.innerHTML="<p>No materials available.</p>";
+/* FILTER ONLY SELECTED SUBJECT FILES */
+let filtered=uploads.filter(file=>file.subject===selectedSubject);
+
+if(filtered.length===0){
+materialsList.innerHTML="<p>No materials available for this subject.</p>";
 return;
 }
 
-uploads.forEach(file=>{
+filtered.forEach(file=>{
 
 let div=document.createElement("div");
 div.className="file-item";
@@ -113,7 +121,7 @@ div.innerHTML=`
 
 <div class="file-details">
 <b>${file.subject}</b><br>
-${file.fileName} (${file.year})
+${file.fileName} (Year ${file.year})
 </div>
 
 <div>
