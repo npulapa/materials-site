@@ -11,8 +11,8 @@
 
 body{
 font-family:'Poppins',sans-serif;
-background: radial-gradient(circle at top,#1a0033,#0b001a);
-color:#fff;
+background:#f2f2f2; /* simple background */
+color:#333;
 text-align:center;
 margin:0;
 padding:0;
@@ -21,23 +21,21 @@ padding:0;
 h1{
 margin-top:40px;
 font-size:26px;
-color:#ffd85e;
-text-shadow:0 0 15px rgba(255,216,94,0.8);
+color:#333;
 }
 
 .container{
 margin-top:40px;
 display:inline-block;
 padding:30px 40px;
-background:rgba(255,255,255,0.08);
-border:2px solid #ffd85e;
+background:#ffffff;
 border-radius:20px;
-box-shadow:0 0 25px rgba(255,216,94,0.2);
+box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
 
 .file-item{
-background:linear-gradient(90deg,#00bcd4,#00e5ff);
-color:#000;
+background:#00bcd4;
+color:#fff;
 border-radius:12px;
 padding:15px;
 margin:12px 0;
@@ -45,13 +43,11 @@ width:280px;
 cursor:pointer;
 font-weight:600;
 transition:all 0.3s ease;
-box-shadow:0 0 15px rgba(0,229,255,0.3);
 }
 
 .file-item:hover{
 transform:scale(1.06);
-background:linear-gradient(90deg,#18ffff,#00e6d3);
-box-shadow:0 0 25px rgba(0,255,255,0.7);
+background:#0097a7;
 }
 
 </style>
@@ -85,7 +81,7 @@ const container = document.getElementById("materials");
 if(filtered.length === 0){
 
 container.innerHTML +=
-`<p style="color:#ff6666;">⚠️ No files uploaded for this subject yet.</p>`;
+`<p style="color:red;">⚠️ No files uploaded for this subject yet.</p>`;
 
 return;
 }
